@@ -1,66 +1,51 @@
-# 🛡️ Secure Network Backup Automation Tool
+# 🛡️ Secure Network Automation Suite
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python&logoColor=white)
-![Cisco](https://img.shields.io/badge/Network-Cisco_IOS-black?style=for-the-badge&logo=cisco&logoColor=white)
-![Security](https://img.shields.io/badge/Security-DotEnv-green?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![Ansible](https://img.shields.io/badge/Ansible-Core-red?logo=ansible&logoColor=white)
+![Cisco](https://img.shields.io/badge/Network-Cisco_IOS-black?logo=cisco&logoColor=white)
 
-A robust, secure, and automated Python tool designed to backup **Cisco IOS configurations** for multiple devices simultaneously. This project bridges the gap between traditional Network Engineering and modern **NetDevOps** practices by implementing secure coding standards.
+This repository demonstrates a complete **NetDevOps journey**, evolving from basic Python scripting to scalable Ansible automation. It includes tools for secure configuration backup and infrastructure-as-code (IaC) management.
 
-## 🚀 Key Features
+## 📂 Project Evolution (Structure)
 
-* **🔒 Security First:** Uses environment variables (`.env`) to isolate sensitive credentials (IP, Username, Password) from the source code, adhering to "Security by Design" principles.
-* **⚡ Multi-Device Support:** Reads device inventory from a CSV file, allowing the script to scale from 1 to 1000+ devices without code changes.
-* **🛡️ Error Handling:** Includes robust exception handling. If one device fails (e.g., connection refused), the script logs the error and continues to the next device.
-* **📝 Automated Logging:** Saves `running-config` with dynamic timestamped filenames for easy archiving.
+### 1. Python Automation (Scripting)
+- **`backup_single.py` (V1):** Connects to a single router defined in `.env`.
+  - *Use Case:* Connectivity testing and simple tasks.
+- **`backup_multi.py` (V2):** Reads device inventory from `inventory.csv` and processes them in a loop with error handling.
+  - *Use Case:* Production backup for multiple devices.
 
-## 🛠️ Architecture & Technologies
+### 2. Ansible Automation (Infrastructure as Code)
+- **`ansible/` (V3 - New!):** Contains Playbooks for configuration management.
+  - **`router_config.yaml`:** Configures OSPF and Loopback interfaces on multiple routers simultaneously.
+  - **`hosts`:** Ansible inventory file.
+  - *Use Case:* Mass configuration changes and ensuring state (Idempotency).
 
-* **Language:** Python 3.12
-* **Libraries:** `Netmiko` (SSH Handling), `csv` (Inventory Management), `datetime`
-* **Lab Environment:** EVE-NG (Cisco IOL Images)
-* **Protocol:** SSH (Port 22)
+## ⚙️ Setup & Usage
 
-## ⚙️ Installation & Usage
-
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/eminekilic/secure-cisco-backup.git](https://github.com/eminekilic/secure-cisco-backup.git)
-    cd secure-cisco-backup
-    ```
-
-2.  **Install Requirements**
+### For Python Scripts:
+1.  **Install Requirements:**
     ```bash
     pip install -r requirements.txt
     ```
-
-3.  **Configure Inventory (CSV)**
-    * Open `inventory.csv` and add your devices in the following format:
-    ```csv
-    device_name,ip_address,username,password,device_type
-    R1,192.168.125.150,admin,cisco,cisco_ios
-    R2,192.168.125.151,admin,cisco,cisco_ios
-    ```
-
-4.  **Run the Script**
+2.  **Configure Credentials:**
+    - Create a `.env` file for credentials (IP, Username, Password).
+    - For V2, update `inventory.csv` with your device list.
+3.  **Run:**
     ```bash
-    python multi_backup.py
+    python backup_multi.py
     ```
 
-## 📂 File Structure
-
-```text
-.
-├── multi_backup.py      # Main automation script (Loops through CSV)
-├── inventory.csv        # Device list (IPs, Credentials)
-├── inventory.example.csv # Template for inventory (Safe to upload)
-├── .gitignore           # Git configuration (Hides sensitive files)
-├── requirements.txt     # Python dependencies
-└── README.md            # Documentation
-```
+### For Ansible Playbooks:
+1.  **Navigate to Folder:**
+    ```bash
+    cd ansible
+    ```
+2.  **Run Playbook:**
+    ```bash
+    ansible-playbook -i hosts router_config.yaml
+    ```
 
 ## 🔮 Future Improvements
-
-- [ ] Multi-threading for backing up multiple devices simultaneously.
 - [ ] Integration with Slack/Teams for notification.
 - [ ] AI-based Anomaly Detection (Integrating LSTM models).
 

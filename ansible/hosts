@@ -1,0 +1,10 @@
+[routers]
+R1 ansible_host=192.168.125.129
+R2 ansible_host=192.168.125.130
+
+[routers:vars]
+ansible_user=admin
+ansible_password=cisco
+
+ansible_network_os=ios
+ansible_connection=network_cli

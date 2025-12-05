@@ -1,0 +1,19 @@
+---
+- name: Router Configuration Playbook
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Configure Loopback 0 Interface
+      ios_config:
+        parents: interface Loopback0
+        lines:
+          - description CONFIGURED_BY_ANSIBLE
+          - ip address 1.1.1.1 255.255.255.255
+
+    - name: Configure OSPF Process 1
+      ios_config:
+        parents: router ospf 1
+        lines:
+          - network 0.0.0.0 255.255.255.255 area 0
